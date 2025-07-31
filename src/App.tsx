@@ -1,26 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import DogBreedsApp from "./components/page/DogBreedsApp";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App: React.FC = () => {
+    return (
+        <Provider store={store}>
+            <BrowserRouter>
+                <main>
+                    <Routes>
+                        <Route path='/' element={<DogBreedsApp />} />
+                    </Routes>
+                </main>
+            </BrowserRouter>
+        </Provider>
+    );
 }
 
 export default App;
