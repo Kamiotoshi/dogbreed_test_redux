@@ -1,6 +1,7 @@
-// redux/breed/breedsSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Breed, BreedsState, ApiResponse } from '../../types';
+
+const ITEMS_PER_PAGE = 10; // Giả định số lượng bản ghi mỗi trang
 
 const initialState: BreedsState = {
     breeds: [],
@@ -27,26 +28,26 @@ const breedsSlice = createSlice({
             state.loading = false;
             state.breeds = action.payload.data;
             state.error = null;
-            state.currentPage = action.payload.meta.pagination.current;
-            state.totalPages = action.payload.meta.pagination.last;
-            state.totalRecords = action.payload.meta.pagination.records;
+            state.currentPage = action.payload.meta.pagination.current || 1;
+            // Tính totalPages dựa trên records và ITEMS_PER_PAGE
+            state.totalPages = action.payload.meta.pagination.records
+                ? Math.ceil(action.payload.meta.pagination.records / ITEMS_PER_PAGE)
+                : 1;
+            state.totalRecords = action.payload.meta.pagination.records || 0;
 
-            // Cache breeds for offline use
             if (state.isOnline) {
-                // Merge with existing cache, avoid duplicates
                 const existingIds = state.cachedBreeds.map(breed => breed.id);
                 const newBreeds = action.payload.data.filter(breed => !existingIds.includes(breed.id));
                 state.cachedBreeds = [...state.cachedBreeds, ...newBreeds];
             }
         },
         fetchBreedsError: (state, action: PayloadAction<string>) => {
-            state.loading = false;
+            state.loading = false; // Đảm bảo loading được đặt về false khi lỗi
             state.error = action.payload;
 
-            // If offline, use cached data
             if (!state.isOnline && state.cachedBreeds.length > 0) {
-                state.breeds = state.cachedBreeds.slice(0, 10); // Show first 10 from cache
-                state.totalPages = Math.ceil(state.cachedBreeds.length / 10);
+                state.breeds = state.cachedBreeds.slice(0, ITEMS_PER_PAGE);
+                state.totalPages = Math.ceil(state.cachedBreeds.length / ITEMS_PER_PAGE);
                 state.totalRecords = state.cachedBreeds.length;
             }
         },
