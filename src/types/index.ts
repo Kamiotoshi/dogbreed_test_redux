@@ -21,6 +21,25 @@ export interface Breed {
     };
 }
 
+// API Response interface
+export interface ApiResponse {
+    data: Breed[];
+    meta: {
+        pagination: {
+            current: number;
+            next: number | null;
+            last: number;
+            records: number;
+        };
+    };
+    links: {
+        self: string;
+        current: string;
+        next: string | null;
+        last: string;
+    };
+}
+
 export interface BreedsState {
     breeds: Breed[];
     loading: boolean;
@@ -28,6 +47,12 @@ export interface BreedsState {
     isOnline: boolean;
     searchTerm: string;
     filterHypoallergenic: boolean;
+    // Pagination fields
+    currentPage: number;
+    totalPages: number;
+    totalRecords: number;
+    // Cache for offline
+    cachedBreeds: Breed[];
 }
 
 export interface ValidationInputProps {
@@ -68,5 +93,15 @@ export interface FilterComponentProps {
 
 export interface BreedCardProps {
     breed: Breed;
+    className?: string;
+}
+
+// New Pagination Props
+export interface PaginationProps {
+    currentPage: number;
+    totalPages: number;
+    totalRecords: number;
+    onPageChange: (page: number) => void;
+    loading?: boolean;
     className?: string;
 }

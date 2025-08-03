@@ -1,0 +1,72 @@
+/* styles/cursor.css */
+/* Thêm file này vào App.css hoặc import riêng */
+
+/* Cursor pointer cho tất cả buttons và clickable elements */
+button,
+[role="button"],
+.cursor-pointer,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+    cursor: pointer !important;
+}
+
+/* Cursor pointer cho links */
+a,
+[role="link"] {
+    cursor: pointer !important;
+}
+
+/* Cursor pointer cho disabled buttons vẫn hiển thị not-allowed */
+button:disabled,
+[role="button"]:disabled,
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled {
+    cursor: not-allowed !important;
+}
+
+/* Specific styles for pagination */
+.pagination-btn,
+.page-number,
+.learn-more-btn,
+.google-link,
+.filter-button {
+    cursor: pointer !important;
+}
+
+/* Hover effects với cursor pointer */
+.hover\:scale-105:hover,
+.transform:hover,
+.transition-all:hover {
+    cursor: pointer !important;
+}
+
+/* Form elements giữ cursor mặc định */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea,
+select {
+    cursor: text !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus {
+    cursor: text !important;
+}
+
+/* Checkbox và radio buttons */
+input[type="checkbox"],
+input[type="radio"] {
+    cursor: pointer !important;
+}
+
+/* Labels for form elements */
+label {
+    cursor: pointer !important;
+}
